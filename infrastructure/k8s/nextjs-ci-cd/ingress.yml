@@ -25,7 +25,3 @@ spec:
                 name: nextjs-ci-cd-service
                 port:
                   number: 80
-  tls:
-    - hosts:
-        - view.cursetheweb.online
-      secretName: nextjs-ci-cd-tls
