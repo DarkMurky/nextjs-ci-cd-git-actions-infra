@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+  name: nextjs-ci-cd-ingress
+  namespace: default
+spec:
+  ingressClassName: public
+  rules:
+    - host: netflix.kaizer.live
+      http:
+        paths:
+          - path: /.well-known/acme-challenge/
+            pathType: Prefix
+            backend:
+              service:
+                name: cm-acme-http-solver-service
+                port:
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nextjs-ci-cd-service
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - netflix.kaizer.live
+      secretName: nextjs-ci-cd-tls
